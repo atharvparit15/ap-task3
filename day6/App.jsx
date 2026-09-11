@@ -1,21 +1,21 @@
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-xl rounded-xl bg-white p-6 shadow-lg">
-        <h1 className="mb-4 text-3xl font-bold text-blue-600">
-          My Task Tracker
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-xl shadow-md text-center">
+        <h1 className="text-3xl font-bold text-blue-600">
+          React + Tailwind
         </h1>
 
-        <p className="mb-4 text-gray-600">
-          React and Tailwind CSS
+        <p className="mt-3 text-gray-600">
+          Styling React Components
         </p>
 
-        <button className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
-          Add Task
+        <button className="mt-5 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Click Me
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
