@@ -1,10 +1,10 @@
 function App() {
   return (
     <div>
-      <h1>My Task Tracker</h1>
-      <p>Welcome to my React project!</p>
+      <h1>My React App</h1>
+      <p>Welcome to React!</p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
