@@ -1,18 +1,23 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div>
-      <h1>My Task Tracker</h1>
-      <p>Count: {count}</p>
+      <h1>Counter App</h1>
+
+      <h2>{count}</h2>
 
       <button onClick={() => setCount(count + 1)}>
-        Click Me
+        Increase
+      </button>
+
+      <button onClick={() => setCount(count - 1)}>
+        Decrease
       </button>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
