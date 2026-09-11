@@ -8,7 +8,7 @@ function App() {
       id: 1,
       text: "Learn React",
       completed: false,
-      date: "10/09/2026",
+      date: "11/09/2026",
       time: "14:31:09",
     },
   ]);
