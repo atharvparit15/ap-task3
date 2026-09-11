@@ -1,167 +1,70 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import TaskList from "./TaskList";
 
 function App() {
-  const [taskText, setTaskText] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [task, setTask] = useState("");
+  const [tasks, setTasks] = useState([]);
 
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "Learn React",
-      completed: false,
-      date: "11/09/2026",
-      time: "15:30:00",
-    },
-  ]);
+  function addTask(e) {
+    e.preventDefault();
 
-  // Live Date & Time
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
+    if (!task.trim()) return;
 
-    return () => clearInterval(timer);
-  }, []);
+    setTasks([
+      ...tasks,
+      {
+        id: Date.now(),
+        text: task,
+        completed: false
+      }
+    ]);
 
-  // Add Task
-  const addTask = () => {
-    if (taskText.trim() === "") return;
+    setTask("");
+  }
 
-    const now = new Date();
-
-    const newTask = {
-      id: Date.now(),
-      text: taskText,
-      completed: false,
-      date: now.toLocaleDateString("en-GB"),
-      time: now.toLocaleTimeString("en-GB"),
-    };
-
-    setTasks([...tasks, newTask]);
-    setTaskText("");
-  };
-
-  // Complete / Pending
-  const toggleTask = (id) => {
+  function toggleTask(id) {
     setTasks(
-      tasks.map((task) =>
-        task.id === id
-          ? { ...task, completed: !task.completed }
-          : task
+      tasks.map((item) =>
+        item.id === id
+          ? { ...item, completed: !item.completed }
+          : item
       )
     );
-  };
+  }
 
-  // Delete
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
-
-  const completedCount = tasks.filter((task) => task.completed).length;
-  const pendingCount = tasks.filter((task) => !task.completed).length;
+  function deleteTask(id) {
+    setTasks(tasks.filter((item) => item.id !== id));
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-10">
-      <div className="bg-white w-full max-w-xl p-6 rounded-xl shadow-lg">
-
-        <h1 className="text-3xl font-bold text-center mb-4">
-          My Task Tracker
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Task Tracker
         </h1>
 
-        {/* Live Date & Time */}
-        <div className="text-center mb-6">
-          <p className="text-lg font-semibold text-blue-600">
-            📅 {currentDateTime.toLocaleDateString("en-GB")}
-          </p>
-
-          <p className="text-lg font-semibold text-gray-600">
-            🕒 {currentDateTime.toLocaleTimeString("en-GB")}
-          </p>
-        </div>
-
-        {/* Add Task */}
-        <div className="flex gap-2 mb-5">
+        <form onSubmit={addTask} className="flex gap-2 mb-6">
           <input
             type="text"
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
             placeholder="Enter a task"
-            value={taskText}
-            onChange={(e) => setTaskText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                addTask();
-              }
-            }}
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2"
+            className="flex-1 border rounded-lg px-4 py-2"
           />
 
           <button
-            onClick={addTask}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
           >
             Add Task
           </button>
-        </div>
+        </form>
 
-        {/* Complete & Pending */}
-        <div className="flex justify-between mb-5 text-lg font-semibold">
-          <p className="text-green-600">
-            Completed: {completedCount}
-          </p>
-
-          <p className="text-orange-600">
-            Pending: {pendingCount}
-          </p>
-        </div>
-
-        {/* Task List */}
-        <div className="space-y-3">
-          {tasks.map((task) => (
-            <div
-              key={task.id}
-              className="border rounded-lg p-3 flex items-center justify-between"
-            >
-              <div className="flex items-start gap-3">
-
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => toggleTask(task.id)}
-                  className="mt-1"
-                />
-
-                <div>
-                  <p
-                    className={
-                      task.completed
-                        ? "line-through text-gray-400"
-                        : "font-medium"
-                    }
-                  >
-                    {task.text}
-                  </p>
-
-                  <p className="text-sm text-gray-500 mt-1">
-                    📅 Date: {task.date}
-                  </p>
-
-                  <p className="text-sm text-gray-500">
-                    🕒 Time: {task.time}
-                  </p>
-                </div>
-
-              </div>
-
-              <button
-                onClick={() => deleteTask(task.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-lg"
-              >
-                Delete
-              </button>
-
-            </div>
-          ))}
-        </div>
-
+        <TaskList
+          tasks={tasks}
+          toggleTask={toggleTask}
+          deleteTask={deleteTask}
+        />
       </div>
     </div>
   );
