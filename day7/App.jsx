@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [taskText, setTaskText] = useState("");
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   const [tasks, setTasks] = useState([
     {
@@ -9,9 +10,18 @@ function App() {
       text: "Learn React",
       completed: false,
       date: "11/09/2026",
-      time: "14:31:09",
+      time: "15:30:00",
     },
   ]);
+
+  // Live Date & Time
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   // Add Task
   const addTask = () => {
@@ -54,9 +64,20 @@ function App() {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-10">
       <div className="bg-white w-full max-w-xl p-6 rounded-xl shadow-lg">
 
-        <h1 className="text-3xl font-bold text-center mb-6">
+        <h1 className="text-3xl font-bold text-center mb-4">
           My Task Tracker
         </h1>
+
+        {/* Live Date & Time */}
+        <div className="text-center mb-6">
+          <p className="text-lg font-semibold text-blue-600">
+            📅 {currentDateTime.toLocaleDateString("en-GB")}
+          </p>
+
+          <p className="text-lg font-semibold text-gray-600">
+            🕒 {currentDateTime.toLocaleTimeString("en-GB")}
+          </p>
+        </div>
 
         {/* Add Task */}
         <div className="flex gap-2 mb-5">
@@ -119,8 +140,12 @@ function App() {
                     {task.text}
                   </p>
 
+                  <p className="text-sm text-gray-500 mt-1">
+                    📅 Date: {task.date}
+                  </p>
+
                   <p className="text-sm text-gray-500">
-                    📅 {task.date} &nbsp; 🕒 {task.time}
+                    🕒 Time: {task.time}
                   </p>
                 </div>
 
@@ -132,6 +157,7 @@ function App() {
               >
                 Delete
               </button>
+
             </div>
           ))}
         </div>
