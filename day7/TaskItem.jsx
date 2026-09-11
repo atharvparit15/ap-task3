@@ -1,38 +1,32 @@
-function TaskItem({ task, index, onComplete, onDelete }) {
+function TaskItem({ task, toggleTask, deleteTask }) {
   return (
-    <li className="flex items-center gap-3 rounded bg-gray-100 p-3">
+    <div className="flex items-center justify-between border-b py-3">
+      <div className="flex items-center gap-3">
+        <input
+          type="checkbox"
+          checked={task.completed}
+          onChange={() => toggleTask(task.id)}
+        />
 
-      <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={() => onComplete(index)}
-      />
-
-      <div className="flex-1">
         <span
           className={
             task.completed
-              ? 'text-gray-500 line-through'
-              : 'text-gray-800'
+              ? "line-through text-gray-400"
+              : "text-gray-800"
           }
         >
           {task.text}
         </span>
-
-        <p className="mt-1 text-xs text-gray-500">
-          📅 {task.date} &nbsp; 🕐 {task.time}
-        </p>
       </div>
 
       <button
-        onClick={() => onDelete(index)}
-        className="rounded bg-red-500 px-3 py-1 text-white"
+        onClick={() => deleteTask(task.id)}
+        className="bg-red-500 text-white px-3 py-1 rounded"
       >
         Delete
       </button>
-
-    </li>
-  )
+    </div>
+  );
 }
 
-export default TaskItem
+export default TaskItem;
