@@ -1,30 +1,31 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 function App() {
-  const [task, setTask] = useState('')
+  const [name, setName] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    alert(`Task added: ${task}`)
-    setTask('')
+  function handleSubmit(e) {
+    e.preventDefault();
+    alert(`Hello ${name}`);
   }
 
   return (
     <div>
-      <h1>My Task Tracker</h1>
+      <h1>Form Example</h1>
 
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Enter a task"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
-        <button type="submit">Add Task</button>
+        <button type="submit">Submit</button>
       </form>
+
+      <p>Your name: {name}</p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
